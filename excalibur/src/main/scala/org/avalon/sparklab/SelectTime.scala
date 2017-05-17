@@ -27,6 +27,11 @@ object SelectTime {
     import spark.implicits._
     import spark.sql
 
+    val df = spark.read.format("csv").option("header", true).load(System.getProperty("user.dir")+"/data/47#IFL8.lc1.csv")
+
+    
+    val it = df.toLocalIterator()
+    
     
     
 
