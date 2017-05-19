@@ -1,4 +1,4 @@
-package org.avalon.sparklab.Infrastructure
+package org.avalon.sparklab.infrastructure
 
 object StockFunc {
   
