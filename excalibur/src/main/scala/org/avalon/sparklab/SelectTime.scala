@@ -25,7 +25,7 @@ object SelectTime {
 
     // warehouseLocation points to the default location for managed databases and tables
     // spark-warehouse file:${system:user.dir}
-    val warehouseLocation = "hdfs://master:9000/user/hive/warehouse"
+    // val warehouseLocation = "hdfs://master:9000/user/hive/warehouse"
 
     val spark = SparkSession
       .builder()
@@ -71,26 +71,41 @@ object SelectTime {
     
     headTimeDate.setTime(fm1.parse(headTimeStr))
     
+    var oneMinuteBars = df
     
     if (headTimeDate.get(Calendar.HOUR) == 9 && headTimeDate.get(Calendar.MINUTE) == 30 && headTimeDate.get(Calendar.SECOND) == 0){
       println("标准的开盘时间，直接执行")
-      
+
     }else{
       
       println("非标准的开盘时间，跳过一天"+headTimeStr)
       headTimeDate.add(Calendar.DATE, 1)
       
-      val afterDay = fm2.format(headTimeDate.getTime)
+      headTimeDate.set(Calendar.HOUR, 9)
+      headTimeDate.set(Calendar.MINUTE, 30)
+      headTimeDate.set(Calendar.SECOND, 0)
+      
+      
+      val afterDay = fm1.format(headTimeDate.getTime)
       println(afterDay)
       
+      //df.filter($"time" >= afterDay).show()
       
-      df.filter($"time" >= afterDay).show()
+      oneMinuteBars = df.filter($"time" >= afterDay)
+      
+      
+      
+      //oneMinuteBars.foreach(f)
+      
     }
     
+    oneMinuteBars.show()
     
-    
-    
-    
+    oneMinuteBars.foreach(x=> {
+      
+      
+      }
+    )
     
     
     
